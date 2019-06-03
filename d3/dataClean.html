@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Data cleanup and visualization</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vender/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="index.html">COMP6214 - Coursework 1</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="index.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="dataClean.html">Cleanup</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="visualization.html">Visualization</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="description.html">target audiance</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-primary text-white">
+        <div class="container text-center">
+            <h1>Part 1 - data cleaning</h1>
+            <p class="lead">Coursework 1</p>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h2>Data cleaning</h2>
+                    <p class="lead">
+                        In this task, both <a href="data/original_dataset.csv" target="_blank">original dataset</a> and <a href="data/cleaned_dataset.csv" target="_blank">cleaned dataset</a> are available for download. Tools such <a href="http://openrefine.org/" target="_blank">Open Refine</a> and Microsoft Excel are used for the purpose of identifying, correcting, cleaning and validating errors.
+                        Following error types were identified and corrective measures were performed in the orginial dataset during cleanup process.
+                    </p>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Error type</th>
+                                <th scope="col">Error description</th>
+                                <th scope="col">Clean up detail / process</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Empty records or rows in the middle of dataset.</td>
+                                <td>
+                                    There were empty records found in rows 479, 536, 591, 692 to 699,785,
+                                    856,933, 1012, 1080, 1126, 1195, 1201, 1281, 1368, 1449 to 1460, 1535, 1619, 1688, 1841, 1880, 1943, 2084, 2109,2120,
+                                    2169, 2828, 3011, 3148, 3284, 3306, 3380,3442, 3467 to 3470.
+                                </td>
+                                <td>Empty rows in the middle of dataset makes visualization, sorting, filtering and summation complicated and are not required in the dataset. Therefore, these empty records were removed from the dataset.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Column adjustment or shifting</td>
+                                <td>
+                                    1. Records from 707 to 719 for (Chile/CHL), 697 to 1792 for (IND / India), 4405 to 4448 for (United Kingdom) were wrongly placed into the columns. for example, data from column country are placed into country_long column and continues with the rest of the columns.<br />
+                                    2. Records from 357 to 387 (Australia), 928 to 947 (Ecuador), 1800 to 1828 (India), 2046 to 2166 (Italy), 4348 to 4379 (United Kingdom) for country_long column and the rest were wrongly placed into the columns.<br />
+                                </td>
+                                <td>These rows were shifted one column to the left placing values into the correct columns for country, country_long and the rest.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Total / Summation records in the middle of dataset</td>
+                                <td>
+                                    Records 1304 (All India) and 1925 (All IRAQ) were found representing total values for the mentioned counries.
+                                </td>
+                                <td>Total or summation records in the middle of the dataset complicates filtering, sorting, and more importantly dis-order data visualization pattern. Therefore, these records are not required and removed.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Spelling mistakes</td>
+                                <td>
+                                    Records with Kingdon, Chill, Bangladess, Belgiun, Uzbekistam, Vietnan, New Zealan, Kindom, Urguay, #NAME?, and Solarr were identified with wrong spellings.
+                                </td>
+                                <td>These records were corrected with correct spelling with Kingdom, Chile, Bangladesh, Belgium, Uzbekistan, Vietnam, New Zealand, Kingdom, Urguay, Blank / empty string and Solar respectively.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>Multiple representation</td>
+                                <td>
+                                    1. <b>Abbreviation</b> with S-KOR for South Korea, AU for Austria, AZ for Azerbaijan, Chile for Chile,NLD for New Zealand, PRK for North Korea, USSR for Russia, ZAF for South Africa, Spain for Spain,
+                                    UK for United Kingdom, CH for Chile, [and RWE for RWE Npower in owner column]
+                                    <br />
+                                    2. <b>Capitalization</b> Sa for South Africa, kor for South Korea identified as an invalid form.
+                                    <br />
+                                    3. <b>Mulitiple</b> representation of countries long name such as USSR for Russia, YEM for Yemen, UK for United Kingdom, London for United Kingdom, and RWA for Rwanda.
+                                </td>
+                                <td>
+                                    Mutliple representation of data in any column will lead to in-accuracy in reporting by providing distinct meanings. Therefore, these wrong representations are corrected accordingly.
+                                    <br />
+                                    1. These records were corrected with correct abbreviation with KOR, AUT, AZE, CHL, NZL, N-KOR, RUS, SA, ESP, GBR, CHL, [and RWE Npower for owner field] correspondently.
+                                    <br />
+                                    2. SA and KOR were capitalized respectively to omit mulitple representation.
+                                    <br />
+                                    3. Country long name were corrected with values Russia, Yemen, United Kingdom, United Kingdom, and Rwanda respectively.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>Duplicate records</td>
+                                <td>
+                                    Records with gppd_idnr = WRI1019834, WRI1003309, WRI1001886, WRI1023156, WRI1000118, WRI1061301, WRI1026026, WRI1026027, and WRI1061293 were identified duplicate.
+                                </td>
+                                <td>
+                                    Duplicate records lead to in-accureate reporting and less informed decision making by giving wrong figures and facts. If considered will lead to invalid reporting. Therefore, one of the records which with mentioned gppd_idnr are deleted from dataset.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">7</th>
+                                <td>Empty cell values</td>
+                                <td>
+                                    Some of the cells in country and country_long column are empty or blank, however, the rest of the columns has data.
+                                    For example: records 796, 2154, 2307, 2422, 2620, 2753, 3096 are empty or blank.
+                                </td>
+                                <td>
+                                    These empty or blank cells pose different meanings, however, when the rest of the columns are filled. By looking at other fields we can fill and clearn these empty cells by adding correspondent values.
+                                    For example: records 796 changed to CHL, and records 2154, 2307, 2422, 2620, 2753, 3096 which were all blank changed to Italy, Japan, Kazakhstan, Morocco, Nicaragua, and Papua New Guinea respectively.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">8</th>
+                                <td>Wrong year, numeric values and ranges</td>
+                                <td>
+                                    1. <b>Years</b> are represented in specific calender format (solar, geogrian, Hebrew and etc), however, in the dataset
+                                    some values of commissioning_year are represented as 421421, 15123, 1477, 1823, 1774, 201, 200
+                                    year cannot be NaN value as it is represented in Year_of_Capacity_data field.
+                                    <br />
+                                    2. <b>Invalid numeric ranges</b> in estimated_generation_gwh and generation_gwh_2016 identified.
+                                    For example: 45700000000000000 or (4.57E+16), 9680000000000 or (9.68E+12), 346346436, 45745457, 6262745754 were identified as invalid range.
+                                    <br />
+                                    3. <b>Text in numeric values</b> fields estimated_generation_gwh, estimated_generation_gwh, estimated_generation_gwh,
+                                    and generation_gwh_2015 contains none numeric values like NaN, (gwh), and Nil.
+                                </td>
+                                <td>
+                                    1. Invalid year or different year calender leads to in-acccurate reporting, thus, makes decision making impossible. Therefore,
+                                    421421, 15123, 1477, 1823, 1774, 201, 200 values in commissioing_year and NaN in Year_of_Capacity_data were changed to blank or empty values accordingly.
+                                    <br />
+                                    2. Invalid numeric values especially for production fields lead in-accuracy of reporting and wrong decisions. estimated_generation_gwh range from 0 to 44264.118 and generation_gwh_2016 range from 0 to 14337.11,
+                                    Therefore, it cannot contain values such  45700000000000000, 9680000000000, 45745457, 346346436, 6262745754. These values were changed to blank accordingly.
+                                    <br />
+                                    3. A number field cannot contain text values because it poses invalid meaning to the report and cannot be reported properly. Therefore, these none numeric values are changed to blank or empty string accordingly.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">9</th>
+                                <td>Correction from other sources (optional)</td>
+                                <td>
+                                    There were missing values in the dataset for number of fields such as fuel1, name, and gppd_idnr, these empty cells can be easily filled by authentic sources.
+                                </td>
+                                <td>
+                                    I found <a href="http://datasets.wri.org/dataset/540dcf46-f287-47ac-985d-269b04bea4c6/resource/27c271ef-63c3-49c5-a06a-f21bb7b96371/download/globalpowerplantdatabasev110" target="_blank">power plant</a>
+                                    one of the authentic sources and tried to use it for clean up purposes.
+                                    <br />
+                                    Records with gppd_idnr = WRI1019057 and WRI1019108, changed empty or blank fuel1 column to Coal;
+                                    records with name = Kashima, gppd_idnr column changed to WRI1000622 and finally
+                                    records with gppd_idnr = WRI1000679, WRI1026499, WRI1022440, GEODB0040475, and WRI1003116 name column changed from blank to Kashiwazaki Kariwa, Kitakyushu 13 Solar Power Plant, RTEC1,
+                                    Kali Gandaki Hydroelectric Power Plant Nepal and Fall Nepal.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-left text-white" style="vertical-align:top;">
+                Module Code: COMP6214<br />
+                Module Name: Open Data Innovation<br />
+                Student Email: arh2n18@soton.ac.uk<br />
+                Coursework 1
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>

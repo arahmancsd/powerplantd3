@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Data Visualization - Coursework 1</title>
+    <!-- Bootstrap core CSS -->
+    <link href="vender/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <!-- D3 library JS -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="vender/jquery/jquery.min.js"></script>
+
+</head>
+<body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="index.html">COMP6214 - Coursework 1</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="index.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="dataClean.html">Cleanup</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="visualization.html">Visualization</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="description.html">target audiance</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="about" style="padding-top:100px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10" style="padding:0px;">
+                    <div style="text-align:center; width:100%;">
+                        <h2 style="text-align:center;" id="htitle">Global energy source in megawatt</h2>
+                    </div>
+                </div>
+                <div class="col-lg-10" style="padding:0px; height:600px;">
+                    <div class="col-lg-10" id="divdata" style="padding:5px;">
+
+                    </div>
+                    <div class="container" style="padding:0px;">
+                        <div class="row">
+                            <div class="col">
+                                <div class="alert alert-primary" role="alert" style="margin-left:5px; margin-right:5px;">
+                                    Custom filters overrides saved filters!
+                                </div>
+                            </div>
+                            <div class="col" style="text-align:right;">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="chklegend" onclick="updateChartOnChecked();" checked value="option1">
+                                    <label class="form-check-label" for="chklegend">legend</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="chkfigure" onclick="updateChartOnChecked();" checked value="option2">
+                                    <label class="form-check-label" for="chkchkfigure">figure</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="chktooltip" onclick="updateChartOnChecked();" checked value="option2">
+                                    <label class="form-check-label" for="chktooltip">tooltip</label>
+                                    &nbsp;
+                                    <select class="form-control" id="ddlSortBy" style="width:150px;" onchange="updateChartOnChecked();">
+                                        <option selected>-Sort by-</option>
+                                        <option value="1">Capacity</option>
+                                        <option value="2">Country</option>
+                                        <option value="3">Fuel</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2" id="divFilter" style="padding:0px;">
+                    <div class="card" style="min-height:20%;">
+                        <div class="card-header">
+                            Saved filter
+                        </div>
+                        <div class="card-body" style="padding:5px;">
+                            <div class="form-group">
+                                <select class="form-control" id="ddlFuelType" onchange="updateChartByEnergySource();"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="min-height:70%; margin-top:10px;">
+                        <div class="card-header">
+                            Custom filter
+                        </div>
+                        <div class="card-body" style="padding:5px;">
+                            <div class="form-group">
+                                <label for="sel1">select country</label>
+                                <select class="form-control" id="ddlCountries" onchange="updateChart();"></select>
+                            </div>
+                            <div class="form-group form-check" id="divchkCompare">
+                                <input type="checkbox" class="form-check-input" onclick="activateddlCompare(this);" id="chkCompare">
+                                <label class="form-check-label" for="chkCompare">Compare</label>
+                            </div>
+                            <div class="form-group" id="divCountriesToCompare" style="display:none; overflow-y: scroll; max-height:200px;">
+                                <span class="label label-default" id="numberOfCountries"></span>
+
+                                <ul class="list-group" id="ulx"></ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact" style="padding-top:0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mx-auto">
+                    <h2>Description & Target audiance</h2>
+                    <p class="lead">
+                        The bar and grouped bar charts are designed for senior managers to make decision on global energy sources production,
+                        however, the data in both graphs are presented in a way that everyone can get global and country specific energy source capacity production
+                        in megawatt. The data is grouped by energy source (fuel), country, capacity in meggawatt and depending on user
+                        filters data aggregation and tranformation is applied. The main reason why those area of information such country, fuel and capacity
+                        were selected is the availability of information for more than 95% of the selected columns in the dataset. Some of the columns in the dataset don't have data
+                        or are blank which makes comparison difficult or improper. However, reasons behind chosen bar graphs are visbility, readability and attraction.
+                        The data in both graphs are visible, easily readable and attract users by providing information, so users can get visible information in a single look. For more detail, click <a href="description.html">target audiance</a>.
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-left text-white" style="vertical-align:top;">
+                Module Code: COMP6214<br />
+                Module Name: Open Data Innovation<br />
+                Student Email: arh2n18@soton.ac.uk<br />
+                Coursework 1
+            </p>
+        </div>
+    </footer>
+    <!-- D3 dataset  -->
+    <script src="js/RandomColors.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script src="js/dataset.js"></script>
+
+
+</body>
+</html>
